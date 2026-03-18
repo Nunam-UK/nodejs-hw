@@ -1,0 +1,44 @@
+import express from "express";
+import "dotenv/config";
+import cors from "cors";
+import pino from "pino-http";
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use(
+  pino({
+    transport: {
+      target: "pino-pretty",
+    },
+  }),
+);
+
+app.get("/notes", (req, res) => {
+  res.status(200).json({ message: "Retrieved all notes" });
+});
+
+app.get("/notes/:noteId", (req, res) => {
+  const notesId = req.params.noteId;
+  res.status(200).json({ message: `Retrieved note with ID: ${notesId}` });
+});
+
+app.get("/test-error", (req, res) => {
+  throw new Error("Simulated server error");
+});
+
+app.use((req, res) => {
+  res.status(404).send({ message: "Route not found" });
+});
+
+app.use((err, req, res, next) => {
+  res.status(500).json({
+    message: err.message || "Internal Server Error",
+  });
+});
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
