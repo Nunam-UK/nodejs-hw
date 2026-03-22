@@ -2,40 +2,39 @@ import { Router } from 'express';
 import { celebrate } from 'celebrate';
 import * as notesController from '../controllers/notesController.js';
 import * as notesSchemas from '../validations/notesValidation.js';
+import { authenticate } from '../middleware/authenticate.js';
 
 const router = Router();
 
-// Отримання всіх нотаток
+// Застосовуємо аутентифікацію до ВСІХ роутів нотаток
+router.use(authenticate);
+
 router.get(
-  '/notes',
+  '/',
   celebrate(notesSchemas.getAllNotesSchema),
   notesController.getAllNotes,
 );
 
-// Отримання однієї нотатки за ID
 router.get(
-  '/notes/:noteId',
+  '/:noteId',
   celebrate(notesSchemas.noteIdSchema),
   notesController.getNoteById,
 );
 
-// Створення нотатки
 router.post(
-  '/notes',
+  '/',
   celebrate(notesSchemas.createNoteSchema),
   notesController.createNote,
 );
 
-// Оновлення нотатки
 router.patch(
-  '/notes/:noteId',
+  '/:noteId',
   celebrate(notesSchemas.updateNoteSchema),
   notesController.updateNote,
 );
 
-// Видалення нотатки
 router.delete(
-  '/notes/:noteId',
+  '/:noteId',
   celebrate(notesSchemas.noteIdSchema),
   notesController.deleteNote,
 );
