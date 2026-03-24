@@ -17,7 +17,6 @@ export const startServer = async () => {
   await connectMongoDB();
 
   app.use(logger);
-
   app.use(
     cors({
       origin: true,
