@@ -32,6 +32,7 @@ export const startServer = async () => {
   app.use('/users', userRouter);
 
   app.use(notFoundHandler);
+
   app.use(errors());
   app.use(errorHandler);
 
