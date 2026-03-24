@@ -9,6 +9,7 @@ import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import notesRouter from './routes/notesRoutes.js';
 import authRouter from './routes/authRoutes.js';
+import userRouter from './routes/userRoutes.js';
 
 export const startServer = async () => {
   const app = express();
@@ -29,6 +30,8 @@ export const startServer = async () => {
 
   app.use('/auth', authRouter);
   app.use('/notes', notesRouter);
+  app.use('/users', userRouter);
+
   app.use(errors());
   app.use(notFoundHandler);
   app.use(errorHandler);
